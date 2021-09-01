@@ -1,12 +1,9 @@
 import fs from 'fs';
-import prompt from 'prompt-sync';
 import { exit } from 'process';
 
 import { DUMP_PATH, START_NUMBER_REGEX } from './constants';
 
 import { Sniffer } from './classes/sniffer';
-
-prompt();
 
 export const main = () => {
   // Check if the file exist
