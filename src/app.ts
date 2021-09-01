@@ -1,9 +1,12 @@
 import fs from 'fs';
+import prompt from 'prompt-sync';
 import { exit } from 'process';
 
 import { DUMP_PATH, START_NUMBER_REGEX } from './constants';
 
 import { Sniffer } from './classes/sniffer';
+
+prompt();
 
 export const main = () => {
   // Check if the file exist
@@ -13,10 +16,12 @@ export const main = () => {
     exit(-1);
   }
 
-  const fileData = fs.readFileSync(DUMP_PATH).toString().trim();
+  let fileData = fs.readFileSync(DUMP_PATH).toString().trim();
+
+  fileData = fileData.replace(START_NUMBER_REGEX, '');
 
   // Instantiate the sniffer class
-  const mySniffer = new Sniffer(fileData.replace(START_NUMBER_REGEX, ''));
+  const mySniffer = new Sniffer(fileData);
 
   console.clear();
   console.log('Bienvenido/a\n');
@@ -24,12 +29,8 @@ export const main = () => {
   console.log('Paquete de datos\n');
   console.log(fileData + '\n');
 
-  console.log('Cabezera Ethernet\n');
-
   // Show all data
   console.log(`Dirección MAC destino: \t${mySniffer.getFromMAC()}`);
   console.log(`Dirección MAC origen: \t${mySniffer.getToMac()}`);
-  console.log(
-    `Tipo de servicio: \t${mySniffer.getServiceType()} - Internet Protocol version 4 (IPv4)`
-  );
+  console.log(`Tipo de servicio: \t${mySniffer.getServiceType()}`);
 };

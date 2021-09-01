@@ -10,7 +10,11 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^16.7.10",
+    "@types/prompt-sync": "^4.1.1",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
   }
 }
