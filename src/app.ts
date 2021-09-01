@@ -19,6 +19,8 @@ export const main = () => {
   const mySniffer = new Sniffer(fileData.replace(START_NUMBER_REGEX, ''));
 
   console.clear();
+  console.log('Bienvenido/a\n');
+
   console.log('Paquete de datos\n');
   console.log(fileData + '\n');
 
