@@ -13,13 +13,16 @@ export const main = () => {
     exit(-1);
   }
 
-  let fileData = fs.readFileSync(DUMP_PATH).toString().trim();
-
-  // Delete line numbers
-  fileData = fileData.replace(START_NUMBER_REGEX, '');
+  const fileData = fs.readFileSync(DUMP_PATH).toString().trim();
 
   // Instantiate the sniffer class
-  const mySniffer = new Sniffer(fileData);
+  const mySniffer = new Sniffer(fileData.replace(START_NUMBER_REGEX, ''));
+
+  console.clear();
+  console.log('Paquete de datos\n');
+  console.log(fileData + '\n');
+
+  console.log('Cabezera Ethernet\n');
 
   // Show all data
   console.log(`Dirección MAC destino: \t${mySniffer.getFromMAC()}`);
