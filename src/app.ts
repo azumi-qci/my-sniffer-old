@@ -29,5 +29,7 @@ export const main = () => {
   // Show all data
   console.log(`Dirección MAC destino: \t${mySniffer.getFromMAC()}`);
   console.log(`Dirección MAC origen: \t${mySniffer.getToMac()}`);
-  console.log(`Tipo de servicio: \t${mySniffer.getServiceType()}`);
+  console.log(
+    `Tipo de servicio: \t${mySniffer.getServiceType()} - Internet Protocol version 4 (IPv4)`
+  );
 };
