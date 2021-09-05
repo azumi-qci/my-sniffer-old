@@ -16,20 +16,12 @@ export class Sniffer {
   }
 
   public getServiceType(): string {
-    let type = 'Desconocido';
-
     const typeInPackage = this.data
       .slice(12, 14)
       .toString()
       .replace(ARRAY_PARSER_REGEX, '');
 
-    for (let key in SERVICE_TYPE) {
-      if (key === typeInPackage) {
-        type = SERVICE_TYPE[key as keyof typeof SERVICE_TYPE];
-
-        break;
-      }
-    }
+    const type = SERVICE_TYPE[typeInPackage as keyof typeof SERVICE_TYPE];
 
     return `0x${this.data
       .slice(12, 14)
