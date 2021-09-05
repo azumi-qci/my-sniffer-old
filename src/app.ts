@@ -51,6 +51,55 @@ export const main = () => {
         break;
       }
       case '2': {
+        console.clear();
+
+        let firstSetResult = '';
+        let secondSetResult = '';
+        let additionResult = '';
+        let complement = '';
+        let result = '';
+        let hexResult = '';
+
+        const firstSet = [
+          convertBase(mySniffer.getPackageSlice(14, 16)).from(16).to(2),
+          convertBase(mySniffer.getPackageSlice(16, 18)).from(16).to(2),
+          convertBase(mySniffer.getPackageSlice(18, 20)).from(16).to(2),
+          convertBase(mySniffer.getPackageSlice(20, 22)).from(16).to(2),
+          convertBase(mySniffer.getPackageSlice(22, 24)).from(16).to(2),
+        ];
+
+        const secondSet = [
+          convertBase(mySniffer.getPackageSlice(24, 26)).from(16).to(2),
+          convertBase(mySniffer.getPackageSlice(26, 28)).from(16).to(2),
+          convertBase(mySniffer.getPackageSlice(30, 32)).from(16).to(2),
+          convertBase(mySniffer.getPackageSlice(34, 36)).from(16).to(2),
+          convertBase(mySniffer.getPackageSlice(36, 38)).from(16).to(2),
+        ];
+
+        firstSetResult = firstSet.reduce((previousValue, currentValue) => {
+          return binaryAddition(previousValue, currentValue);
+        });
+
+        secondSetResult = secondSet.reduce((previousValue, currentValue) => {
+          return binaryAddition(previousValue, currentValue);
+        });
+
+        additionResult = binaryAddition(firstSetResult, secondSetResult);
+
+        // Complemento a 2
+        complement = complementA1(additionResult);
+
+        // Calculate result
+        result = binaryAddition(complement, '1');
+        // Convert result to hexadecimal
+        hexResult = convertBase(result).from(2).to(16);
+
+        // Show results
+        console.log('- Resultado del checksum -');
+        console.log('Binario: ', result);
+        console.log('Hexadecimal: ', hexResult);
+
+        waitForInput();
         break;
       }
       case '3': {
@@ -70,4 +119,52 @@ export const main = () => {
 
 const waitForInput = (): void => {
   myPrompt('\nPresione ENTER para continuar...');
+};
+
+const convertBase = (value: string) => {
+  return {
+    from: (baseForm: number) => {
+      return {
+        to: (baseTo: number) => {
+          return parseInt(value, baseForm).toString(baseTo);
+        },
+      };
+    },
+  };
+};
+
+const binaryAddition = (a: string, b: string) => {
+  let result = '';
+  let carry = 0;
+
+  while (a || b || carry) {
+    let sum = +a.slice(-1) + +b.slice(-1) + carry;
+
+    if (sum > 1) {
+      result = (sum % 2) + result;
+      carry = 1;
+    } else {
+      result = sum + result;
+      carry = 0;
+    }
+
+    a = a.slice(0, -1);
+    b = b.slice(0, -1);
+  }
+
+  return result;
+};
+
+const complementA1 = (value: string) => {
+  let result = '';
+
+  for (let binaryValue of value) {
+    if (binaryValue === '0') {
+      result += '1';
+    } else {
+      result += '0';
+    }
+  }
+
+  return result;
 };

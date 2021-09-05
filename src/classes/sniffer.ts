@@ -28,4 +28,11 @@ export class Sniffer {
       .toString()
       .replace(ARRAY_PARSER_REGEX, '')} - ${type}`;
   }
+
+  public getPackageSlice(start: number, end: number): string {
+    return this.data
+      .slice(start, end)
+      .toString()
+      .replace(ARRAY_PARSER_REGEX, '');
+  }
 }
