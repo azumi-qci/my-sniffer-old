@@ -51,6 +51,13 @@ export const main = () => {
         break;
       }
       case '2': {
+        // Continue tm
+        console.log('\nPróximamente...');
+
+        waitForInput();
+
+        continue;
+
         console.clear();
 
         let firstSetResult = '';
