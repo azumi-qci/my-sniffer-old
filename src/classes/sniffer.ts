@@ -68,6 +68,14 @@ export class Package {
     return bytes;
   };
 
+  public getFlags = (): string => {
+    const byte = this.data.slice(20, 21).toString();
+
+    const dataInBinary = convertBase(byte).from(16).to(2);
+
+    return dataInBinary.substr(0, 3);
+  };
+
   public getPackageSlice(start: number, end: number): string {
     return this.data
       .slice(start, end)

@@ -54,6 +54,7 @@ export const main = () => {
           console.log(`Tipo de servicio: \t${myPackage.getServiceQuality()}`);
           console.log(`Longitud del paquete: \t${myPackage.getPackageSize()}`);
           console.log(`Identificación: \t${myPackage.getIdentification()}`);
+          console.log(`Banderas: \t\t${myPackage.getFlags()}`);
         }
 
         waitForInput();
