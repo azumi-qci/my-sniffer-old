@@ -49,6 +49,7 @@ export const main = () => {
 
         // Include only this info if the package is IPv4
         if (myPackage.getServiceType().includes('0x0800')) {
+          console.log('\n- Cabecera de IPv4 -\n');
           console.log(`Versión: \t\t${myPackage.getVersion()}`);
           console.log(`Tamaño: \t\t${myPackage.getLength()}`);
           console.log(`Tipo de servicio: \t${myPackage.getServiceQuality()}`);
