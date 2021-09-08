@@ -4,7 +4,7 @@ import prompt from 'prompt-sync';
 
 import { DUMP_PATH, START_NUMBER_REGEX } from './constants';
 
-import { Sniffer } from './classes/sniffer';
+import { Package } from './classes/sniffer';
 
 // Instanciate prompt
 const myPrompt = prompt();
@@ -22,7 +22,7 @@ export const main = () => {
   fileData = fileData.replace(START_NUMBER_REGEX, '');
 
   // Instantiate the sniffer class
-  const mySniffer = new Sniffer(fileData);
+  const myPackage = new Package(fileData);
 
   while (true) {
     console.clear();
@@ -43,9 +43,18 @@ export const main = () => {
         console.log(fileData + '\n');
 
         // Show all data
-        console.log(`Dirección MAC destino: \t${mySniffer.getFromMAC()}`);
-        console.log(`Dirección MAC origen: \t${mySniffer.getToMac()}`);
-        console.log(`Tipo de servicio: \t${mySniffer.getServiceType()}`);
+        console.log(`Dirección MAC destino: \t${myPackage.getFromMAC()}`);
+        console.log(`Dirección MAC origen: \t${myPackage.getToMac()}`);
+        console.log(`Tipo de servicio: \t${myPackage.getServiceType()}`);
+
+        // Include only this info if the package is IPv4
+        if (myPackage.getServiceType().includes('0x0800')) {
+          console.log(`Versión: \t\t${myPackage.getVersion()}`);
+          console.log(`Tamaño: \t\t${myPackage.getLength()}`);
+          console.log(`Tipo de servicio: \t${myPackage.getServiceQuality()}`);
+          console.log(`Longitud del paquete: \t${myPackage.getPackageSize()}`);
+          console.log(`Identificación: \t${myPackage.getIdentification()}`);
+        }
 
         waitForInput();
         break;
@@ -58,7 +67,7 @@ export const main = () => {
 
         continue;
 
-        console.clear();
+        /* console.clear();
 
         let firstSetResult = '';
         let secondSetResult = '';
@@ -68,19 +77,19 @@ export const main = () => {
         let hexResult = '';
 
         const firstSet = [
-          convertBase(mySniffer.getPackageSlice(14, 16)).from(16).to(2),
-          convertBase(mySniffer.getPackageSlice(16, 18)).from(16).to(2),
-          convertBase(mySniffer.getPackageSlice(18, 20)).from(16).to(2),
-          convertBase(mySniffer.getPackageSlice(20, 22)).from(16).to(2),
-          convertBase(mySniffer.getPackageSlice(22, 24)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(14, 16)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(16, 18)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(18, 20)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(20, 22)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(22, 24)).from(16).to(2),
         ];
 
         const secondSet = [
-          convertBase(mySniffer.getPackageSlice(24, 26)).from(16).to(2),
-          convertBase(mySniffer.getPackageSlice(26, 28)).from(16).to(2),
-          convertBase(mySniffer.getPackageSlice(30, 32)).from(16).to(2),
-          convertBase(mySniffer.getPackageSlice(34, 36)).from(16).to(2),
-          convertBase(mySniffer.getPackageSlice(36, 38)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(24, 26)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(26, 28)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(30, 32)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(34, 36)).from(16).to(2),
+          convertBase(myPackage.getPackageSlice(36, 38)).from(16).to(2),
         ];
 
         firstSetResult = firstSet.reduce((previousValue, currentValue) => {
@@ -107,7 +116,7 @@ export const main = () => {
         console.log('Hexadecimal: ', hexResult);
 
         waitForInput();
-        break;
+        break; */
       }
       case '3': {
         console.log('\nSaliendo de la aplicación...');
@@ -126,52 +135,4 @@ export const main = () => {
 
 const waitForInput = (): void => {
   myPrompt('\nPresione ENTER para continuar...');
-};
-
-const convertBase = (value: string) => {
-  return {
-    from: (baseForm: number) => {
-      return {
-        to: (baseTo: number) => {
-          return parseInt(value, baseForm).toString(baseTo);
-        },
-      };
-    },
-  };
-};
-
-const binaryAddition = (a: string, b: string) => {
-  let result = '';
-  let carry = 0;
-
-  while (a || b || carry) {
-    let sum = +a.slice(-1) + +b.slice(-1) + carry;
-
-    if (sum > 1) {
-      result = (sum % 2) + result;
-      carry = 1;
-    } else {
-      result = sum + result;
-      carry = 0;
-    }
-
-    a = a.slice(0, -1);
-    b = b.slice(0, -1);
-  }
-
-  return result;
-};
-
-const complementA1 = (value: string) => {
-  let result = '';
-
-  for (let binaryValue of value) {
-    if (binaryValue === '0') {
-      result += '1';
-    } else {
-      result += '0';
-    }
-  }
-
-  return result;
 };
